@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Header() {
+export default function Header({ currentBoard }) {
   return (
     <div className='flex justify-between border border-solid-2 border-black h-12 '>
-        <p>Platform Launch</p>
+        <p>{currentBoard || 'No Board Selected'}</p>
         <div>
             <button>+Add New Task</button>
         </div>

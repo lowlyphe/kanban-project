@@ -9,9 +9,11 @@ import axios from 'axios';
 function App() {
 
   const [boards, setBoards] = useState([])
-  const [currentBoard, setCurrentBoard] = useState()
-  const [currentBoardId, setCurrentBoardId] = useState();
-
+  const [currentBoard, setCurrentBoard] = useState(null)
+  const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [subtasks, setSubtasks] = useState();
+  const [currentTask, setCurrentTasks] = useState();
+  const [hidden, setHidden] = useState()
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/boards').then(res => {
@@ -27,15 +29,24 @@ function App() {
     console.log(e.target.dataset.id)
     setCurrentBoard(e.target.innerText);
     setCurrentBoardId(e.target.dataset.id);
+    console.log('state updated')
+  }
+
+  function handleTask(task) {
+    console.log('here', task)
+  }
+
+  function hideSidebar() {
+    setHidden(hidden => !hidden)
   }
 
 
   return (
     <div className='flex'>
-      <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard}/>
-      <div className='flex flex-col'>
-        <Header />
-        <Board boardId={currentBoardId}/>
+      <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden}/>
+      <div className='flex flex-col w-full'>
+        <Header currentBoard={currentBoard}/>
+        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask}/>
       </div>
     </div>
     
