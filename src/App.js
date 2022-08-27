@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar.js';
 import Header from './components/Header.js';
 import Board from './components/Board.js';
+import Viewboard from './components/Viewboard.js';
 import './App.css';
 import axios from 'axios';
 
@@ -12,8 +13,9 @@ function App() {
   const [currentBoard, setCurrentBoard] = useState(null)
   const [currentBoardId, setCurrentBoardId] = useState(null);
   const [subtasks, setSubtasks] = useState();
-  const [currentTask, setCurrentTasks] = useState();
+  const [currentTask, setCurrentTask] = useState();
   const [hidden, setHidden] = useState()
+  const [taskClicked, setTaskClicked] = useState(false)
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/boards').then(res => {
@@ -32,8 +34,11 @@ function App() {
     console.log('state updated')
   }
 
-  function handleTask(task) {
-    console.log('here', task)
+  function handleTask(tasks, subtasks) {
+    console.log('shit')
+    setTaskClicked(taskClicked => !taskClicked)
+    setCurrentTask(tasks)
+    setSubtasks(subtasks)
   }
 
   function hideSidebar() {
@@ -47,6 +52,7 @@ function App() {
       <div className='flex flex-col w-full'>
         <Header currentBoard={currentBoard}/>
         <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask}/>
+        <Viewboard subtasks={subtasks} currentTask={currentTask}/>
       </div>
     </div>
     

@@ -33,9 +33,9 @@ export default function Board({ currentBoardId, handleTask, currentBoard }) {
   if (currentBoard) {
     return (
       <div className='flex justify-between bg-gray w-full h-screen text-mediumGray'>
-          <Todo todo={todo}/>
+          <Todo todo={todo} handleTask={handleTask}/>
           <Doing doing={doing} handleTask={handleTask}/>
-          <Done done={done}/>
+          <Done done={done} handleTask={handleTask}/>
       </div>
     )
   } else {
