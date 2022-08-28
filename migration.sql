@@ -13,7 +13,7 @@ CREATE TABLE boards(
 CREATE TABLE tasks(
     task_id text NOT NULL,
     name text NOT NULL,
-    board_id INT,
+    board_id text,
     description text,
     subtasks text[],
     status text NOT NULL,
@@ -24,10 +24,10 @@ CREATE TABLE tasks(
 );
 
 CREATE TABLE subtasks(
-    subtask_id text NOT NULL,
+    subtask_id serial NOT NULL,
     name text NOT NULL,
     isComplete boolean NOT NULL,
-    task_id INT,
+    task_id text,
     PRIMARY KEY(subtask_id),
         CONSTRAINT fk_tasks
             FOREIGN KEY(task_id)

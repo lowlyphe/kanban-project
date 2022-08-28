@@ -71,7 +71,9 @@ function App() {
 
   function sendNewTask(taskObj) {
     console.log(taskObj)
-    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => console.log(res))
+    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => setNewTask(res.data[0]))
+    
+    handleNewTask();
   }
   
 
@@ -80,7 +82,7 @@ function App() {
       <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden} viewNewBoard={viewNewBoard} />
       <div className='flex flex-col w-full'>
         <Header currentBoard={currentBoard} handleNewTask={handleNewTask}/>
-        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask}/>
+        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask} newTask={newTask}/>
         <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} />
         <NewBoard handleNewBoard={handleNewBoard} newBoardClicked={newBoardClicked} />
         <NewTask newTaskClicked={newTaskClicked} sendNewTask={sendNewTask} currentBoardId={currentBoardId}/>

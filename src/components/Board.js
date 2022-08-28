@@ -4,7 +4,7 @@ import Todo from './Todo.js';
 import Doing from './Doing.js';
 import Done from './Done.js';
 
-export default function Board({ currentBoardId, handleTask, currentBoard }) {
+export default function Board({ currentBoardId, handleTask, currentBoard, newTask }) {
     const [todo, setTodo] = useState([])
     const [doing, setDoing] = useState([])
     const [done, setDone] = useState([])
@@ -29,6 +29,12 @@ export default function Board({ currentBoardId, handleTask, currentBoard }) {
         })
       }
       }, [currentBoardId])
+
+    useEffect (() => {
+      if (newTask.status === "Todo") setTodo(prevTodo => [...prevTodo, newTask]);
+      if (newTask.status === "Doing") setDoing(newTask);
+      if (newTask.status === "Done") setDone(newTask);
+    }, [newTask])
 
   if (currentBoard) {
     return (

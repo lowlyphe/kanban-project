@@ -11,7 +11,7 @@ export default function NewTask({ newTaskClicked, sendNewTask, currentBoardId })
     const statusRef = useRef()
 
     const taskObj = {
-        task_id: parseInt(v4()),
+        task_id: v4(),
         name: '',
         description: '',
         status: '',
