@@ -32,8 +32,8 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
 
     useEffect (() => {
       if (newTask.status === "Todo") setTodo(prevTodo => [...prevTodo, newTask]);
-      if (newTask.status === "Doing") setDoing(newTask);
-      if (newTask.status === "Done") setDone(newTask);
+      if (newTask.status === "Doing") setDoing(prevDoing => [...prevDoing, newTask]);
+      if (newTask.status === "Done") setDone(prevDone => [...prevDone, newTask]);
     }, [newTask])
 
   if (currentBoard) {

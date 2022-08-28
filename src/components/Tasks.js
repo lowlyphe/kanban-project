@@ -22,7 +22,7 @@ export default function Tasks({ task, handleTask }) {
   return (
     <button className='bg-white rounded-md drop-shadow-md p-2 w-5/6'>
         <div onClick={() => {handleTask(task, subtasks)}}>
-            <div>{task.taskname}</div>
+            <div>{task.task_name}</div>
             <Subtask subtasks={subtasks}/>
         </div>
     </button>

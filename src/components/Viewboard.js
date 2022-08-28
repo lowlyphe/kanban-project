@@ -17,12 +17,13 @@ export default function Viewboard({ subtasks, currentTask, taskClicked, handleCl
                 {subtasks.filter((function(subtask) {
                     if (subtask.iscomplete) return subtask
                     
-                })).map(subtask => (<div className='bg-gray text-mediumGray text-xs line-through'>{subtask.name}</div>))
+                })).map(subtask => (<div className='bg-gray text-mediumGray text-xs line-through'>{subtask.subtask_name}</div>))
                 }
                 {subtasks.filter((function(subtask) {
+                    console.log(subtask)
                     if (!subtask.iscomplete) return subtask
                     
-                })).map(subtask => (<div className='bg-gray text-xs'>{subtask.name}</div>))
+                })).map(subtask => (<div className='bg-gray text-xs'>{subtask.subtask_name}</div>))
                 }
                 <p className='text-xs text-mediumGray'>Current Status: {currentTask.status}</p>
             </div>

@@ -11,7 +11,7 @@ export default function Sidebar({ boards, updateCurrentBoard, hideSidebar, hidde
           <p className='mt-6'>ALL BOARDS ({boards.length})</p>
           {boards.map(b => <div key={v4()} className='flex space-x-2 focus:bg-blue'>
                               <img key={v4()} src={boardLogo} />
-                              <button key={v4()} data-id={b.board_id} onClick={updateCurrentBoard}>{b.name}</button>
+                              <button key={v4()} data-id={b.board_id} onClick={updateCurrentBoard}>{b.board_name}</button>
                             </div>)}
           <div className='flex flex-col mb-auto'>
           <div className='flex text-blue'><img src={boardLogo} /><button onClick={() => viewNewBoard()}>+Create New Board</button></div>

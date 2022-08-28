@@ -22,20 +22,20 @@ app.get('/api/boards', async (req,res) => {
 
 app.get('/api/tasks/:id', async (req,res) => {
     const id = req.params.id;
-    const data = await pool.query('SELECT tasks.name as taskName, description, status, tasks.task_id FROM tasks INNER JOIN boards USING(board_id) WHERE tasks.board_id = $1', [id]);
+    const data = await pool.query('SELECT task_name, description, status, tasks.task_id FROM tasks INNER JOIN boards USING(board_id) WHERE tasks.board_id = $1', [id]);
     res.status(200).type('applicaiton/json').send(data.rows)
 })
 
 app.get('/api/task/:id', async (req,res) => {
     const id = req.params.id;
-    const data = await pool.query('SELECT tasks.task_id, subtasks.task_id, subtasks.name, subtasks.isComplete from tasks INNER JOIN subtasks USING(task_id) WHERE tasks.task_id = $1', [id]);
+    const data = await pool.query('SELECT tasks.task_id, subtasks.task_id, subtask_name, subtasks.isComplete from tasks INNER JOIN subtasks USING(task_id) WHERE tasks.task_id = $1', [id]);
     res.status(200).type('applicaiton/json').send(data.rows);
 })
 
 app.post('/api/tasks/', async (req,res) => {
     const { task_id, name, board_id, description, status } = req.body.taskObj;
     console.log(req.body.taskObj)
-    const data = await pool.query('INSERT INTO tasks(task_id, name, board_id, description, status) VALUES($1, $2, $3, $4, $5) RETURNING *', [task_id, name, board_id, description, status]);
+    const data = await pool.query('INSERT INTO tasks(task_id, task_name, board_id, description, status) VALUES($1, $2, $3, $4, $5) RETURNING *', [task_id, name, board_id, description, status]);
     res.status(200).type('application/json').send(data.rows)
 })
 
