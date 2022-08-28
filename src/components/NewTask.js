@@ -1,35 +1,45 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import { v4 } from 'uuid'
 
 export default function NewTask({ newTaskClicked, sendNewTask, currentBoardId }) {
 
     
-    const [currentSubtasks, setCurrentSubtasks] = useState([])
+    const [currentSubtasks, setCurrentSubtasks] = useState([{}])
     const subtaskRef = useRef()
     const titleRef = useRef()
     const descriptionRef = useRef()
     const statusRef = useRef()
 
+    let newTaskId = v4();
+    
+
     const taskObj = {
-        task_id: v4(),
+        task_id: newTaskId,
         name: '',
         description: '',
         status: '',
         board_id: currentBoardId
     }
 
-    const subtaskArr = [currentSubtasks]
 
     const sendTask = () => {
         taskObj.name = titleRef.current.value;
         taskObj.description = descriptionRef.current.value;
         taskObj.status = statusRef.current.value;
-        sendNewTask(taskObj)
+        console.log(currentSubtasks)
+        sendNewTask(taskObj, currentSubtasks)
+    }
+//INSERT INTO subtasks(subtask_name, isComplete, task_id) VALUES('Find hunter', false, '18');
+    let newSubtask = {
+        subtask_name: '',
+        isComplete: false, 
+        task_id: taskObj.task_id,               
     }
 
     const handleNewSubtasks = (subtaskRef) => {
         console.log(subtaskRef.current.value)
-        setCurrentSubtasks(prevSubtasks => [...prevSubtasks, subtaskRef.current.value])
+        newSubtask.subtask_name = subtaskRef.current.value
+        setCurrentSubtasks(prevSubtasks => [...prevSubtasks, newSubtask])
     }
 
     if (newTaskClicked) {
@@ -42,7 +52,7 @@ export default function NewTask({ newTaskClicked, sendNewTask, currentBoardId })
                   <p className='text-xs text-mediumGray'>Description</p>
                   <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md ' placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." ref={descriptionRef}></input>
                   <p className='text-xs text-mediumGray'>Subtasks</p>
-                  <div className='flex flex-col space-y-2'>{currentSubtasks.map(subtasks => <div className='bg-gray'>{subtasks}</div>)}</div>
+                  <div className='flex flex-col space-y-2'>{currentSubtasks.map(subtasks => <div className='bg-gray'>{subtasks.subtask_name}</div>)}</div>
                   
                   <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md ' placeholder="e.g. Make coffee" ref={subtaskRef}></input>
                 </form>

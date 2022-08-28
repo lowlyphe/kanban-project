@@ -69,8 +69,9 @@ function App() {
     
   }
 
-  function sendNewTask(taskObj) {
+  function sendNewTask(taskObj, subtasks) {
     console.log(taskObj)
+    console.log(subtasks)
     axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => setNewTask(res.data[0]))
     
     handleNewTask();
