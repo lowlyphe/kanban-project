@@ -4,14 +4,14 @@ DROP TABLE IF EXISTS boards;
 
 
 CREATE TABLE boards(
-    board_id INT NOT NULL,
+    board_id text NOT NULL,
     name text NOT NULL,
     isComplete boolean NOT NULL,
     PRIMARY KEY(board_id)
 );
 
 CREATE TABLE tasks(
-    task_id INT NOT NULL,
+    task_id text NOT NULL,
     name text NOT NULL,
     board_id INT,
     description text,
@@ -24,7 +24,7 @@ CREATE TABLE tasks(
 );
 
 CREATE TABLE subtasks(
-    subtask_id serial NOT NULL,
+    subtask_id text NOT NULL,
     name text NOT NULL,
     isComplete boolean NOT NULL,
     task_id INT,

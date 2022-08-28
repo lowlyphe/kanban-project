@@ -1,10 +1,31 @@
 import React, {useState, useRef} from 'react'
 import { v4 } from 'uuid'
 
-export default function NewTask({ newTaskClicked }) {
+export default function NewTask({ newTaskClicked, sendNewTask, currentBoardId }) {
 
+    
     const [currentSubtasks, setCurrentSubtasks] = useState([])
     const subtaskRef = useRef()
+    const titleRef = useRef()
+    const descriptionRef = useRef()
+    const statusRef = useRef()
+
+    const taskObj = {
+        task_id: parseInt(v4()),
+        name: '',
+        description: '',
+        status: '',
+        board_id: currentBoardId
+    }
+
+    const subtaskArr = [currentSubtasks]
+
+    const sendTask = () => {
+        taskObj.name = titleRef.current.value;
+        taskObj.description = descriptionRef.current.value;
+        taskObj.status = statusRef.current.value;
+        sendNewTask(taskObj)
+    }
 
     const handleNewSubtasks = (subtaskRef) => {
         console.log(subtaskRef.current.value)
@@ -17,9 +38,9 @@ export default function NewTask({ newTaskClicked }) {
                 <div>Add New Task</div>
                 <form className='flex flex-col syace-y-4'>
                   <p className='text-xs text-mediumGray'>Title</p>
-                  <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md w-full' placeholder='eg Take a coffee break'></input>
+                  <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md w-full' placeholder='eg Take a coffee break' ref={titleRef}></input>
                   <p className='text-xs text-mediumGray'>Description</p>
-                  <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md w-full' placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."></input>
+                  <input className='border border-solid-1 border-gray w-5/6 text-xs text-black p-2 rounded-md w-full' placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." ref={descriptionRef}></input>
                   <p className='text-xs text-mediumGray'>Subtasks</p>
                   <div className='flex flex-col space-y-2'>{currentSubtasks.map(subtasks => <div className='bg-gray'>{subtasks}</div>)}</div>
                   
@@ -27,12 +48,12 @@ export default function NewTask({ newTaskClicked }) {
                 </form>
                 <button className='w-full rounded-full bg-gray hover:bg-offWhite text-blue' onClick={() => handleNewSubtasks(subtaskRef)}>+ Add New Subtask</button>
                 <p className='text-sm'>Status</p>
-                <select className='border border-solid-1 border-gray rounded-md text-sm' name='status' id='status'>
+                <select className='border border-solid-1 border-gray rounded-md text-sm' name='status' id='status' ref={statusRef}>
                   <option value='Todo' selected>Todo</option>
                   <option value='Todo' selected>Doing</option>
                   <option value='Todo' selected>Done</option>
                 </select>
-                <button className='w-full rounded-full bg-blue hover:lightBlue hover:bg-offWhite text-white hover:text-black'>Create Task</button>
+                <button className='w-full rounded-full bg-blue hover:lightBlue hover:bg-offWhite text-white hover:text-black' onClick={() => sendTask()}>Create Task</button>
             </div>
           )
     } else {

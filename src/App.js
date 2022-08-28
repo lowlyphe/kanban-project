@@ -66,8 +66,14 @@ function App() {
 
   function handleNewTask() {
     setNewTaskClicked(newTaskClicked => !newTaskClicked)
+    
   }
 
+  function sendNewTask(taskObj) {
+    console.log(taskObj)
+    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => console.log(res))
+  }
+  
 
   return (
     <div className='flex'>
@@ -77,7 +83,7 @@ function App() {
         <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask}/>
         <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} />
         <NewBoard handleNewBoard={handleNewBoard} newBoardClicked={newBoardClicked} />
-        <NewTask newTaskClicked={newTaskClicked}  />
+        <NewTask newTaskClicked={newTaskClicked} sendNewTask={sendNewTask} currentBoardId={currentBoardId}/>
       </div>
     </div>
     

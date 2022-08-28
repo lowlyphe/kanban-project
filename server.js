@@ -32,6 +32,12 @@ app.get('/api/task/:id', async (req,res) => {
     res.status(200).type('applicaiton/json').send(data.rows);
 })
 
+app.post('/api/tasks/', async (req,res) => {
+    const { task_id, name, board_id, description, status } = req.body.taskObj;
+    const data = await pool.query('INSERT INTO tasks(task_id, name, board_id, description, status) VALUES($1, $2, $3, $4, $5) RETURNING *', [task_id, name, board_id, description, status]);
+    res.status(200).type('application/json').send(data.rows)
+})
+
 app.listen(PORT || 3001, () => {
     console.log('You are now connected')
 })
