@@ -3,6 +3,8 @@ import Sidebar from './components/Sidebar.js';
 import Header from './components/Header.js';
 import Board from './components/Board.js';
 import Viewboard from './components/Viewboard.js';
+import NewBoard from './components/NewBoard.js';
+import NewTask from './components/NewTask.js';
 import './App.css';
 import axios from 'axios';
 
@@ -16,6 +18,10 @@ function App() {
   const [currentTask, setCurrentTask] = useState();
   const [hidden, setHidden] = useState()
   const [taskClicked, setTaskClicked] = useState(false)
+  const [newBoardClicked, setNewBoardClicked] = useState(false)
+  const [newBoard, setNewBoard] = useState({})
+  const [newTaskClicked, setNewTaskClicked] = useState()
+  const [newTask, setNewTask] = useState({})
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/boards').then(res => {
@@ -45,14 +51,33 @@ function App() {
     setHidden(hidden => !hidden)
   }
 
+  function handleCloseView() {
+    setTaskClicked(taskClicked => !taskClicked)
+  }
+
+  function viewNewBoard() {
+    setNewBoardClicked(newBoardClicked => !newBoardClicked)
+    console.log('clicked')
+  }
+
+  function handleNewBoard(board) {
+    console.log(board)
+  }
+
+  function handleNewTask() {
+    setNewTaskClicked(newTaskClicked => !newTaskClicked)
+  }
+
 
   return (
     <div className='flex'>
-      <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden}/>
+      <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden} viewNewBoard={viewNewBoard} />
       <div className='flex flex-col w-full'>
-        <Header currentBoard={currentBoard}/>
+        <Header currentBoard={currentBoard} handleNewTask={handleNewTask}/>
         <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask}/>
-        <Viewboard subtasks={subtasks} currentTask={currentTask}/>
+        <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} />
+        <NewBoard handleNewBoard={handleNewBoard} newBoardClicked={newBoardClicked} />
+        <NewTask newTaskClicked={newTaskClicked}  />
       </div>
     </div>
     
