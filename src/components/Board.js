@@ -4,7 +4,7 @@ import Todo from './Todo.js';
 import Doing from './Doing.js';
 import Done from './Done.js';
 
-export default function Board({ currentBoardId, handleTask, currentBoard, newTask, newSubtasks }) {
+export default function Board({ currentBoardId, handleTask, currentBoard, newTask, newSubtasks, taskDeleted, updatedTask, viewNewBoard }) {
     const [todo, setTodo] = useState([])
     const [doing, setDoing] = useState([])
     const [done, setDone] = useState([])
@@ -29,11 +29,15 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
       }
       }, [currentBoardId])
 
-    useEffect (() => {
+
+    useEffect(() => {
       if (newTask.status === "Todo") setTodo(prevTodo => [...prevTodo, newTask]);
       if (newTask.status === "Doing") setDoing(prevDoing => [...prevDoing, newTask]);
       if (newTask.status === "Done") setDone(prevDone => [...prevDone, newTask]);
     }, [newTask])
+
+
+
 
   if (currentBoard) {
     return (
@@ -47,7 +51,7 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
     return (
       <div className='flex flex-col space-y-4 bg-gray w-full h-screen text-mediumGray items-center justify-center'>
         <p>This board is empty. Create a board or choose an existing board to get started</p>
-        <button className='bg-blue text-white text-sm rounded-full p-2'>+ Add New Board</button>
+        <button className='bg-blue text-white text-sm rounded-full p-2' onClick={() => viewNewBoard()}>+ Add New Board</button>
       </div>
     )
   }

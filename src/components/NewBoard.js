@@ -18,7 +18,7 @@ export default function NewBoard({ newBoardClicked, handleNewBoard }) {
           <div>Add New Board</div>
           <form className='flex flex-col syace-y-4'>
             <p className='text-xs text-mediumGray'>Name</p>
-            <input className='border border-solid-1 border-gray w-5/6 text-xs text-gray p-2 rounded-md w-full' placeholder='eg Web Design' ref={boardRef}></input>
+            <input className='border border-solid-1 border-gray w-5/6 text-xs textblack p-2 rounded-md w-full' placeholder='eg Web Design' ref={boardRef}></input>
             </form>
           <button className='w-full rounded-full bg-blue text-white hover:bg-lightBlue' onClick={sendNewBoard}>Create New Board</button>
       </div>

@@ -24,6 +24,8 @@ function App() {
   const [newTaskClicked, setNewTaskClicked] = useState()
   const [newTask, setNewTask] = useState({})
   const [newSubtasks, setNewSubtasks] = useState([])
+  const [taskDeleted, setTaskDeleted] = useState({})
+  const [updatedTask, setUpdatedTask] = useState()
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/boards').then(res => {
@@ -88,6 +90,32 @@ function App() {
     handleNewTask();
   }
 
+  const handleDelete = (newState) => {
+    console.log("new state:", newState)
+    setTaskDeleted({
+      task_name: newState.task_name,
+      status: newState.status
+    })
+
+  }
+
+  //{subtasks.filter((function(subtask) {
+  //   if (subtask.iscomplete) return subtask
+                    
+  // })).map(subtask => (<div className='bg-gray text-mediumGray text-xs line-through'>{subtask.subtask_name}</div>))
+
+  const handleDeleteSubtask = (subtask) => {
+    console.log('deletedsubtask:', subtask)
+    console.log('current subtasks:', subtasks)
+    setSubtasks(subtasks.filter(subtaskItems => subtaskItems.subtask_name !== subtask))
+    
+  }
+
+  const handleUpdateTask = (taskObj) => {
+    console.log("updated task:", taskObj)
+    setUpdatedTask(taskObj)
+  }
+
   
 
   return (
@@ -95,8 +123,8 @@ function App() {
       <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden} viewNewBoard={viewNewBoard} />
       <div className='flex flex-col w-full'>
         <Header currentBoard={currentBoard} handleNewTask={handleNewTask}/>
-        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask} newTask={newTask} newSubtasks={newSubtasks}/>
-        <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} />
+        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask} newTask={newTask} newSubtasks={newSubtasks} taskDeleted={taskDeleted} updatedTask={updatedTask} viewNewBoard={viewNewBoard} />
+        <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} handleDelete={handleDelete} handleDeleteSubtask={handleDeleteSubtask} handleUpdateTask={handleUpdateTask} currentBoardId={currentBoardId} />
         <NewBoard handleNewBoard={handleNewBoard} newBoardClicked={newBoardClicked} />
         <NewTask newTaskClicked={newTaskClicked} sendNewTask={sendNewTask} currentBoardId={currentBoardId}/>
       </div>

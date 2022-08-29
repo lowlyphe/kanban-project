@@ -28,7 +28,7 @@ app.get('/api/tasks/:id', async (req,res) => {
 
 app.get('/api/task/:id', async (req,res) => {
     const id = req.params.id;
-    const data = await pool.query('SELECT tasks.task_id, subtasks.task_id, subtask_name, subtasks.isComplete from tasks INNER JOIN subtasks USING(task_id) WHERE tasks.task_id = $1', [id]);
+    const data = await pool.query('SELECT tasks.task_id, subtasks.task_id, subtask_id, subtask_name, subtasks.isComplete from tasks INNER JOIN subtasks USING(task_id) WHERE tasks.task_id = $1', [id]);
     res.status(200).type('applicaiton/json').send(data.rows);
 })
 
@@ -46,10 +46,29 @@ app.post('/api/subtasks/', async (req,res) => {
 })
 
 app.post('/api/boards', async (req,res) => {
-    console.log(req.body)
-    const { board_id, board_name, isComplete } = req.body;
+    const { board_id, board_name, isComplete } = req.body.newBoard;
     const data = await pool.query('INSERT INTO boards(board_id, board_name, isComplete) VALUES($1, $2, $3) RETURNING *', [board_id, board_name, isComplete]);
     res.status(200).type('application/json').send(data.rows[0])
+})
+
+app.put('/api/tasks/:id', async (req,res) => {
+    const id = req.params.id;
+    const { task_id, task_name, board_id, description, status } = req.body;
+    console.log(req.body)
+    const data = await pool.query('UPDATE tasks SET task_id = $1, task_name = $2, board_id = $3, description = $4, status = $5 WHERE task_id = $6 RETURNING *', [task_id, task_name, board_id, description, status, id]);
+    res.status(200).type('application/json').send(data.rows)
+})
+
+app.delete('/api/subtasks/:id', async (req,res) => {
+    const id = req.params.id
+    const data = pool.query('DELETE FROM subtasks WHERE subtask_id = $1 RETURNING *', [id]);
+    res.status(200).type('application/json').send(data.rows)
+})
+
+app.delete('/api/tasks/:id', async (req,res) => {
+    const id = req.params.id
+    const data = pool.query('DELETE FROM tasks WHERE task_id = $1 RETURNING *', [id]);
+    res.status(200).type('application/json').send(data.rows)
 })
 
 app.listen(PORT || 3001, () => {
