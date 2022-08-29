@@ -99,11 +99,6 @@ function App() {
 
   }
 
-  //{subtasks.filter((function(subtask) {
-  //   if (subtask.iscomplete) return subtask
-                    
-  // })).map(subtask => (<div className='bg-gray text-mediumGray text-xs line-through'>{subtask.subtask_name}</div>))
-
   const handleDeleteSubtask = (subtask) => {
     console.log('deletedsubtask:', subtask)
     console.log('current subtasks:', subtasks)
@@ -114,6 +109,7 @@ function App() {
   const handleUpdateTask = (taskObj) => {
     console.log("updated task:", taskObj)
     setUpdatedTask(taskObj)
+
   }
 
   
