@@ -26,18 +26,16 @@ export default function NewTask({ newTaskClicked, sendNewTask, currentBoardId })
         taskObj.name = titleRef.current.value;
         taskObj.description = descriptionRef.current.value;
         taskObj.status = statusRef.current.value;
-        console.log(currentSubtasks)
         sendNewTask(taskObj, currentSubtasks)
     }
 //INSERT INTO subtasks(subtask_name, isComplete, task_id) VALUES('Find hunter', false, '18');
     let newSubtask = {
         subtask_name: '',
         isComplete: false, 
-        task_id: taskObj.task_id,               
+        task_id: '',               
     }
 
     const handleNewSubtasks = (subtaskRef) => {
-        console.log(subtaskRef.current.value)
         newSubtask.subtask_name = subtaskRef.current.value
         setCurrentSubtasks(prevSubtasks => [...prevSubtasks, newSubtask])
     }

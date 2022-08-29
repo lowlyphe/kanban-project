@@ -2,22 +2,25 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Subtask from './Subtask'
 
-export default function Tasks({ task, handleTask }) {
+export default function Tasks({ task, handleTask, newSubtasks }) {
 
-    const [subtasks, setSubTasks] = useState()
-
-    const subTasksArr = []
+    const [subtasks, setSubTasks] = useState([])
 
     useEffect(() => {
+        console.log('subtasks in tasks:', newSubtasks)
         axios.get(`http://localhost:3001/api/task/${task.task_id}`).then((res) => {
-            console.log('subtasks', res.data)
             for (let i = 0; i < res.data.length; i++) {
-                subTasksArr.push(res.data[i])
-            }
-
-            setSubTasks(subTasksArr)
+                setSubTasks(prevSubtasks => [...prevSubtasks, res.data[i]])
+            }              
         })
     }, [])
+
+    useEffect(() => {        
+        for (let i = 0; i < newSubtasks.length; i++) {
+            setSubTasks(prevSubtasks => [...prevSubtasks, newSubtasks[i]])
+        }
+    }, [])
+  
 
   return (
     <button className='bg-white rounded-md drop-shadow-md p-2 w-5/6'>

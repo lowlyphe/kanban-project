@@ -7,6 +7,7 @@ import NewBoard from './components/NewBoard.js';
 import NewTask from './components/NewTask.js';
 import './App.css';
 import axios from 'axios';
+import { v4 } from 'uuid'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [newBoard, setNewBoard] = useState({})
   const [newTaskClicked, setNewTaskClicked] = useState()
   const [newTask, setNewTask] = useState({})
+  const [newSubtasks, setNewSubtasks] = useState([])
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/boards').then(res => {
@@ -34,14 +36,11 @@ function App() {
   }, []);
 
   function updateCurrentBoard(e) {
-    console.log(e.target.dataset.id)
     setCurrentBoard(e.target.innerText);
     setCurrentBoardId(e.target.dataset.id);
-    console.log('state updated')
   }
 
   function handleTask(tasks, subtasks) {
-    console.log('shit')
     setTaskClicked(taskClicked => !taskClicked)
     setCurrentTask(tasks)
     setSubtasks(subtasks)
@@ -57,11 +56,18 @@ function App() {
 
   function viewNewBoard() {
     setNewBoardClicked(newBoardClicked => !newBoardClicked)
-    console.log('clicked')
   }
 
-  function handleNewBoard(board) {
-    console.log(board)
+  function handleNewBoard(boardName) {
+    const newBoard = {
+      board_id: v4(),
+      board_name: boardName,
+      isComplete: false
+    }
+
+    axios.post('http://localhost:3001/api/boards', {newBoard}).then(res => {
+      setBoards(prevBoards => [...prevBoards, res.data])
+    })
   }
 
   function handleNewTask() {
@@ -70,12 +76,18 @@ function App() {
   }
 
   function sendNewTask(taskObj, subtasks) {
-    console.log(taskObj)
-    console.log(subtasks)
-    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => setNewTask(res.data[0]))
-    
+    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => {
+      setNewTask(res.data[0])
+      for (let i = 1; i < subtasks.length; i++) {
+        subtasks[i].task_id = taskObj.task_id
+        axios.post('http://localhost:3001/api/subtasks', subtasks[i]).then(res => setNewSubtasks(prevNewSubtasks => [...prevNewSubtasks, res.data]))
+        
+      }
+    }
+    )
     handleNewTask();
   }
+
   
 
   return (
@@ -83,7 +95,7 @@ function App() {
       <Sidebar boards={boards} updateCurrentBoard={updateCurrentBoard} hideSidebar={hideSidebar} hidden={hidden} viewNewBoard={viewNewBoard} />
       <div className='flex flex-col w-full'>
         <Header currentBoard={currentBoard} handleNewTask={handleNewTask}/>
-        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask} newTask={newTask}/>
+        <Board currentBoardId={currentBoardId} currentBoard={currentBoard} handleTask={handleTask} newTask={newTask} newSubtasks={newSubtasks}/>
         <Viewboard subtasks={subtasks} currentTask={currentTask} taskClicked={taskClicked} handleCloseView={handleCloseView} />
         <NewBoard handleNewBoard={handleNewBoard} newBoardClicked={newBoardClicked} />
         <NewTask newTaskClicked={newTaskClicked} sendNewTask={sendNewTask} currentBoardId={currentBoardId}/>

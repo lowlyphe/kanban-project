@@ -4,7 +4,7 @@ import Todo from './Todo.js';
 import Doing from './Doing.js';
 import Done from './Done.js';
 
-export default function Board({ currentBoardId, handleTask, currentBoard, newTask }) {
+export default function Board({ currentBoardId, handleTask, currentBoard, newTask, newSubtasks }) {
     const [todo, setTodo] = useState([])
     const [doing, setDoing] = useState([])
     const [done, setDone] = useState([])
@@ -14,7 +14,6 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
     useEffect(() => {
         if (currentBoardId) {
           axios.get(`http://localhost:3001/api/tasks/${currentBoardId}`).then(res => {
-            console.log(res.data)
             let todoArr = [];
             let doingArr = [];
             let doneArr = [];
@@ -39,9 +38,9 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
   if (currentBoard) {
     return (
       <div className='flex justify-between bg-gray w-full h-screen text-mediumGray'>
-          <Todo todo={todo} handleTask={handleTask}/>
-          <Doing doing={doing} handleTask={handleTask}/>
-          <Done done={done} handleTask={handleTask}/>
+          <Todo todo={todo} handleTask={handleTask} newSubtasks={newSubtasks} />
+          <Doing doing={doing} handleTask={handleTask} newSubtasks={newSubtasks} />
+          <Done done={done} handleTask={handleTask} newSubtasks={newSubtasks} />
       </div>
     )
   } else {
