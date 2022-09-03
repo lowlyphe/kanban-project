@@ -72,5 +72,5 @@ app.delete('/api/tasks/:id', async (req,res) => {
 })
 
 app.listen(PORT || 3001, () => {
-    console.log('You are now connected')
+    console.log(`connected on port: ${PORT}`)
 })

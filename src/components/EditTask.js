@@ -55,7 +55,7 @@ export default function EditTask({ edit, handleSetEdit, currentTask, subtasks, h
         taskObj.task_name = titleRef.current.value
         taskObj.task_description = descriptionRef.current.value
         taskObj.status = statusRef.current.value
-        axios.put(`http://localhost:3001/api/tasks/${taskObj.task_id}`, taskObj)
+        axios.put(`/api/tasks/${taskObj.task_id}`, taskObj)
         handleUpdateTask(taskObj)
         handleSetEdit()
     }

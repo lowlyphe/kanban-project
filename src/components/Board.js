@@ -13,7 +13,7 @@ export default function Board({ currentBoardId, handleTask, currentBoard, newTas
 
     useEffect(() => {
         if (currentBoardId) {
-          axios.get(`http://localhost:3001/api/tasks/${currentBoardId}`).then(res => {
+          axios.get(`/api/tasks/${currentBoardId}`).then(res => {
             let todoArr = [];
             let doingArr = [];
             let doneArr = [];

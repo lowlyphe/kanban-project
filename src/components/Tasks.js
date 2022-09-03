@@ -8,7 +8,7 @@ export default function Tasks({ task, handleTask, newSubtasks }) {
 
     useEffect(() => {
         console.log('subtasks in tasks:', newSubtasks)
-        axios.get(`http://localhost:3001/api/task/${task.task_id}`).then((res) => {
+        axios.get(`/api/task/${task.task_id}`).then((res) => {
             for (let i = 0; i < res.data.length; i++) {
                 setSubTasks(prevSubtasks => [...prevSubtasks, res.data[i]])
             }              

@@ -28,7 +28,7 @@ function App() {
   const [updatedTask, setUpdatedTask] = useState()
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/boards').then(res => {
+    axios.get('/api/boards').then(res => {
       const boards = [];
       for (let i = 0; i < res.data.length; i++) {
         boards.push(res.data[i]);
@@ -67,7 +67,7 @@ function App() {
       isComplete: false
     }
 
-    axios.post('http://localhost:3001/api/boards', {newBoard}).then(res => {
+    axios.post('/api/boards', {newBoard}).then(res => {
       setBoards(prevBoards => [...prevBoards, res.data])
     })
   }
@@ -78,11 +78,11 @@ function App() {
   }
 
   function sendNewTask(taskObj, subtasks) {
-    axios.post('http://localhost:3001/api/tasks', {taskObj}).then(res => {
+    axios.post('/api/tasks', {taskObj}).then(res => {
       setNewTask(res.data[0])
       for (let i = 1; i < subtasks.length; i++) {
         subtasks[i].task_id = taskObj.task_id
-        axios.post('http://localhost:3001/api/subtasks', subtasks[i]).then(res => setNewSubtasks(prevNewSubtasks => [...prevNewSubtasks, res.data]))
+        axios.post('/api/subtasks', subtasks[i]).then(res => setNewSubtasks(prevNewSubtasks => [...prevNewSubtasks, res.data]))
         
       }
     }
