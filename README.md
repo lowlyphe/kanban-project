@@ -28,7 +28,7 @@ Users should be able to:
 
 ### Links
 
-- Live URL: [Heroku Live App](https://entertainment-web-app-lowlyphe.herokuapp.com/)
+- Live URL: Coming Soon
 
 ## My process
 
