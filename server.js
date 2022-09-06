@@ -4,6 +4,7 @@ const app = express();
 const dotenv = require('dotenv') 
 dotenv.config();
 const pg = require('pg') 
+const path = require('path')
 
 app.use(cors());
 app.use(express.json());
@@ -11,6 +12,10 @@ app.use(express.json());
 const { DATABASE_URL, NODE_ENV, PORT } = process.env;
 
 app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const pool = new pg.Pool({
     connectionString: DATABASE_URL,
