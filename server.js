@@ -10,6 +10,8 @@ app.use(express.json());
 
 const { DATABASE_URL, NODE_ENV, PORT } = process.env;
 
+app.use(express.static(path.join(__dirname, 'build')));
+
 const pool = new pg.Pool({
     connectionString: DATABASE_URL,
     ssl: NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
